@@ -1,5 +1,7 @@
 # Clipboard Bridge
 
+*Send text and auto-typed input from your phone to your computer over your local Wi-Fi. macOS / Windows / Linux. No cloud.*
+
 Send text from your **phone** to your **computer's clipboard**, plus an
 **autotyper** that types queued text into the focused window on a hotkey.
 Runs entirely on your local Wi-Fi (no cloud) and works on macOS, Windows,
@@ -26,7 +28,16 @@ and Linux.
 The recommended installer is [`pipx`](https://pipx.pypa.io/), which
 isolates the tool in its own virtual environment automatically.
 
-### Option 1 — `pipx` (recommended)
+### Option 1 — `pipx` from the GitHub Release (current recommended path)
+
+The package isn't on PyPI yet. Until then, install directly from the GitHub
+Release wheel:
+
+```bash
+pipx install https://github.com/phani69015/clipboard-bridge/releases/download/v0.1.0/clipboard_bridge-0.1.0-py3-none-any.whl
+```
+
+If you don't have `pipx`:
 
 ```bash
 # macOS:    brew install pipx
@@ -34,19 +45,27 @@ isolates the tool in its own virtual environment automatically.
 # Windows:  python -m pip install --user pipx
 
 pipx ensurepath           # one-time, then open a new terminal
+```
+
+### Option 2 — `pipx` from PyPI (once published)
+
+```bash
 pipx install clipboard-bridge
 ```
 
-### Option 2 — plain `pip`
+Not yet available; this is what the install command will look like
+once `clipboard-bridge` is published to PyPI.
+
+### Option 3 — plain `pip` from the GitHub Release
 
 ```bash
-pip install --user clipboard-bridge
+pip install --user https://github.com/phani69015/clipboard-bridge/releases/download/v0.1.0/clipboard_bridge-0.1.0-py3-none-any.whl
 ```
 
-### Option 3 — from a local checkout (this repo, before publishing)
+### Option 4 — from a local checkout
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/phani69015/clipboard-bridge
 cd clipboard-bridge
 pip install .
 # or for development:
@@ -83,24 +102,30 @@ You'll see a banner with the URL, PIN, and a QR code:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
  Autotyper hotkey: Ctrl+a   Abort: Esc
+ Stop with Ctrl+C, or from any other terminal: cb-bridge stop
 ```
 
 Scan the QR code with your phone camera, enter the PIN once, and you're in.
+
+### Stopping the server
+
+Two ways:
+- Press **`Ctrl+C`** in the terminal where it's running.
+- From any terminal: `cb-bridge stop`.
 
 ---
 
 ## CLI reference
 
-```bash
-cb-bridge                  # start the server (alias for "cb-bridge run")
-cb-bridge run              # same, with explicit subcommand
-cb-bridge stop             # stop a running server (from any terminal)
-cb-bridge status           # show whether a server is running
-cb-bridge pin              # print the current persisted PIN
-cb-bridge regen-pin        # generate and persist a new PIN
-cb-bridge --version
-cb-bridge --help
-```
+| Command | Description |
+|---|---|
+| `cb-bridge` / `cb-bridge run` | Start the server |
+| `cb-bridge stop` | Stop a running server (works from any terminal) |
+| `cb-bridge status` | Show whether a server is running |
+| `cb-bridge pin` | Print the persisted PIN |
+| `cb-bridge regen-pin` | Generate and persist a new PIN |
+| `cb-bridge --version` | Print version |
+| `cb-bridge --help` | Show help |
 
 The server writes a PID file at `<config_dir>/server.pid` while running,
 so `cb-bridge stop` and `cb-bridge status` work from any terminal — even
@@ -179,14 +204,17 @@ Maximum length per queue: **10,000 characters**.
 
 ## Where things are stored
 
-| OS | Config file (with PIN) |
-|---|---|
-| macOS | `~/Library/Application Support/clipboard-bridge/config.json` |
-| Linux | `~/.config/clipboard-bridge/config.json` |
-| Windows | `%APPDATA%\clipboard-bridge\config.json` |
+| OS | Config (with PIN) | PID file (while running) |
+|---|---|---|
+| macOS | `~/Library/Application Support/clipboard-bridge/config.json` | `~/Library/Application Support/clipboard-bridge/server.pid` |
+| Linux | `~/.config/clipboard-bridge/config.json` | `~/.config/clipboard-bridge/server.pid` |
+| Windows | `%APPDATA%\clipboard-bridge\config.json` | `%APPDATA%\clipboard-bridge\server.pid` |
 
 The PIN is stored as plain JSON, with file mode `0600` on Unix.
-Delete this file (or run `cb-bridge regen-pin`) to rotate the PIN.
+Delete the config file (or run `cb-bridge regen-pin`) to rotate the PIN.
+The PID file is written on `cb-bridge run` startup and removed on clean
+shutdown; stale PID files left by crashes are detected and cleaned up
+automatically on the next `cb-bridge status` or `cb-bridge run`.
 
 ---
 
@@ -274,6 +302,11 @@ Press `Win+R`, type `shell:startup`, hit Enter. Create a shortcut to
 - Known limitation of `pynput` for some characters. Use Clipboard mode
   + manual paste for those.
 
+**Server says "already running" but I can't find it**
+- `cb-bridge status` will show the PID. `cb-bridge stop` ends it cleanly.
+- If a stale PID file is left after a crash, it's auto-cleaned on the next
+  `cb-bridge status` or `cb-bridge run`.
+
 **Port 8765 already in use**
 - `cb-bridge --port 9000`
 
@@ -298,6 +331,10 @@ python -m build
 pipx install ./dist/clipboard_bridge-0.1.0-py3-none-any.whl
 ```
 
+Pre-built artifacts for the latest release are also attached to the
+[GitHub Releases](https://github.com/phani69015/clipboard-bridge/releases)
+page — no local build required.
+
 ---
 
 ## Security notes
@@ -319,6 +356,13 @@ pipx install ./dist/clipboard_bridge-0.1.0-py3-none-any.whl
 - Autotyper: 10,000 char cap per queue
 - Linux Wayland: autotyper limited (clipboard works)
 - Some non-Latin characters may type imperfectly through `pynput`
+
+---
+
+## Releases
+
+Latest: **v0.1.0** — see the [GitHub Releases](https://github.com/phani69015/clipboard-bridge/releases)
+page for downloadable wheels and sdists.
 
 ---
 
