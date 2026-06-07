@@ -39,6 +39,11 @@ dependencies = [
 [project.scripts]
 cb-bridge = "clipboard_bridge.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/phani69015/clipboard-bridge"
+Repository = "https://github.com/phani69015/clipboard-bridge"
+Issues = "https://github.com/phani69015/clipboard-bridge/issues"
+
 [tool.hatch.version]
 path = "src/clipboard_bridge/__version__.py"
 
