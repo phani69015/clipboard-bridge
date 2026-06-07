@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0b0b0d">
+    <title>Clipboard Bridge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Clipboard Bridge</h1>
+            <p class="subtitle">Phone &rarr; Mac</p>
+        </header>
+
+        <!-- PIN entry screen -->
+        <section id="pin-screen" class="screen">
+            <h2>Enter PIN</h2>
+            <p class="hint">Check the terminal on your Mac for the 4-digit PIN.</p>
+            <form id="pin-form" autocomplete="off">
+                <input
+                    id="pin-input"
+                    type="text"
+                    inputmode="numeric"
+                    pattern="\d{4}"
+                    maxlength="4"
+                    placeholder="****"
+                    autocomplete="off"
+                    autocorrect="off"
+                    spellcheck="false"
+                    required
+                >
+                <button type="submit" id="pin-submit">Unlock</button>
+                <p id="pin-status" class="status" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <!-- Mode tabs (visible after auth) -->
+        <nav id="tabs" class="tabs hidden" role="tablist">
+            <button type="button" class="tab active" data-tab="clipboard" role="tab">Clipboard</button>
+            <button type="button" class="tab" data-tab="autotype" role="tab">Autotype</button>
+        </nav>
+
+        <!-- Notepad / Clipboard screen -->
+        <section id="notepad-screen" class="screen hidden">
+            <h2>Notepad</h2>
+            <form id="send-form">
+                <textarea
+                    id="text-input"
+                    placeholder="Type something to send to the Mac clipboard..."
+                    rows="10"
+                    required
+                ></textarea>
+                <button type="submit" id="send-btn">Send to Mac</button>
+                <p id="send-status" class="status" role="status" aria-live="polite"></p>
+            </form>
+            <footer>
+                <button type="button" id="forget-btn" class="link-btn">Forget PIN</button>
+            </footer>
+        </section>
+
+        <!-- Autotype screen -->
+        <section id="autotype-screen" class="screen hidden">
+            <h2>Autotype</h2>
+            <p class="hint">
+                Paste text, queue it, then press <strong>&#8963;A</strong> on your Mac.
+                Press <strong>Esc</strong> to abort.
+            </p>
+            <form id="autotype-form">
+                <textarea
+                    id="autotype-input"
+                    rows="10"
+                    placeholder="Paste or type the text to be auto-typed on the Mac..."
+                    required
+                ></textarea>
+
+                <div class="row">
+                    <label class="field">
+                        Speed
+                        <select id="autotype-speed">
+                            <option value="slow">Slow</option>
+                            <option value="normal" selected>Normal</option>
+                            <option value="fast">Fast</option>
+                        </select>
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="autotype-jitter">
+                        Human jitter
+                    </label>
+                </div>
+
+                <button type="submit" id="autotype-submit">Queue for typing</button>
+                <button type="button" id="autotype-clear" class="secondary">Clear queue</button>
+
+                <p id="autotype-status" class="status" role="status" aria-live="polite"></p>
+            </form>
+            <footer>
+                <button type="button" id="forget-btn-2" class="link-btn">Forget PIN</button>
+            </footer>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clipboard-bridge"
+dynamic = ["version"]
+description = "Send text from your phone to your computer's clipboard, plus an autotyper, over LAN."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Tirumala Phanendra" },
+]
+keywords = ["clipboard", "autotyper", "lan", "phone", "productivity"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+]
+dependencies = [
+    "flask>=3.0",
+    "pyperclip>=1.8",
+    "qrcode[pil]>=7.4",
+    "pynput>=1.7",
+    "platformdirs>=4.0",
+]
+
+[project.scripts]
+cb-bridge = "clipboard_bridge.cli:main"
+
+[tool.hatch.version]
+path = "src/clipboard_bridge/__version__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clipboard_bridge"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/clipboard_bridge",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+]

@@ -1,0 +1,301 @@
+:root {
+    --bg: #f7f7f8;
+    --surface: #ffffff;
+    --text: #111;
+    --muted: #666;
+    --border: #e2e2e6;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --ok: #15803d;
+    --err: #b91c1c;
+    --neutral: #e5e7eb;
+    --neutral-hover: #d1d5db;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #0b0b0d;
+        --surface: #16161a;
+        --text: #f3f3f5;
+        --muted: #9a9aa3;
+        --border: #2a2a30;
+        --accent: #3b82f6;
+        --accent-hover: #60a5fa;
+        --ok: #4ade80;
+        --err: #f87171;
+        --neutral: #2a2a30;
+        --neutral-hover: #3a3a42;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px 20px env(safe-area-inset-bottom, 24px);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0 0 4px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+h2 {
+    margin: 0 0 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* --- Tabs -------------------------------------------------------------- */
+.tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 14px;
+}
+
+.tab {
+    flex: 1;
+    background: transparent;
+    color: var(--muted);
+    border: none;
+    border-radius: 8px;
+    min-height: 40px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.tab:hover {
+    color: var(--text);
+}
+
+.tab.active {
+    background: var(--bg);
+    color: var(--text);
+    font-weight: 600;
+    box-shadow: 0 0 0 1px var(--border) inset;
+}
+
+/* --- Screens ----------------------------------------------------------- */
+.screen {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.hint {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.5em;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+input[type="text"]:focus {
+    border-color: var(--accent);
+}
+
+textarea {
+    width: 100%;
+    min-height: 50vh;
+    padding: 14px 16px;
+    font-size: 1rem;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    resize: vertical;
+    transition: border-color 0.15s;
+}
+
+textarea:focus {
+    border-color: var(--accent);
+}
+
+select {
+    padding: 8px 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* --- Row of controls (speed + jitter) --------------------------------- */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+}
+
+/* --- Buttons ----------------------------------------------------------- */
+button {
+    min-height: 48px;
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+}
+
+button:hover {
+    background: var(--accent-hover);
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button.secondary {
+    background: var(--neutral);
+    color: var(--text);
+}
+
+button.secondary:hover {
+    background: var(--neutral-hover);
+}
+
+/* --- Status / progress ------------------------------------------------- */
+.status {
+    margin: 4px 0 0;
+    min-height: 1.3em;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+}
+
+.status.ok {
+    color: var(--ok);
+}
+
+.status.err {
+    color: var(--err);
+}
+
+.progress {
+    width: 100%;
+    height: 8px;
+    background: var(--neutral);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width 0.2s ease-out;
+}
+
+/* --- Footer / link button --------------------------------------------- */
+footer {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.link-btn {
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 400;
+    min-height: 32px;
+    padding: 6px 10px;
+}
+
+.link-btn:hover {
+    background: transparent;
+    color: var(--text);
+    text-decoration: underline;
+}
